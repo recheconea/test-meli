@@ -1,0 +1,53 @@
+{
+  "site_id": "MLA",
+  "query": ":auto",
+  "paging": {
+    "total": 159807,
+    "offset": 0,
+    "limit": 50,
+    "primary_results": 100
+  },
+  "results": [
+  ],
+  "secondary_results": [
+  ],
+  "related_results": [
+  ],
+  "sort": {
+    "id": "relevance",
+    "name": "More relevant"
+  },
+  "available_sorts": [
+    {
+      "id": "price_asc",
+      "name": "Lower price"
+    },
+    {
+      "id": "price_desc",
+      "name": "Higher price"
+    }
+  ],
+  "filters": [
+    {
+      "id": "category",
+      "name": "Categories",
+      "type": "text",
+      "values": [
+        {
+          "id": "MLA1744",
+          "name": "Autos y Camionetas",
+          "path_from_root": [
+            {
+              "id": "MLA1743",
+              "name": "Autos, Motos y Otros"
+            },
+            {
+              "id": "MLA1744",
+              "name": "Autos y Camionetas"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
