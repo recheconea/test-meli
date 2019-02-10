@@ -39,7 +39,32 @@ class ItemService {
       },
       categories: categories
     };
+  }
 
+  async getItem(id) {
+    const { data: itemData }  = await axios.get(`https://api.mercadolibre.com/items/${id}`);
+    const { data: itemDescription } = await axios.get(`https://api.mercadolibre.com/items/${id}/description`);
+
+    return {
+      author: {
+        name: 'Rodrigo',
+        lastname: 'Echeconea'
+      },
+      item: {
+        id: id,
+        title: itemData.title,
+        price: {
+          currency: itemData.currency_id,
+          amount: itemData.price,
+          decimals: 0,
+        },
+        picture: itemData.thumbnail,
+        condition: itemData.condition,
+        free_shipping: itemData.shipping.free_shipping,
+        sold_quantity: itemData.sold_quantity,
+        description: itemDescription.plain_text
+      }
+    }
   }
 }
 

@@ -15,6 +15,12 @@ nock('https://api.mercadolibre.com')
 nock('https://api.mercadolibre.com')
   .get('/sites/MLA/search?q=perro')
   .reply(200, JSON.parse(fs.readFileSync('./test/mocks/query_results__no_results.json', 'utf8')));
+nock('https://api.mercadolibre.com')
+  .get('/items/12345')
+  .reply(200, JSON.parse(fs.readFileSync('./test/mocks/item_result.json', 'utf8')));
+nock('https://api.mercadolibre.com')
+  .get('/items/12345/description')
+  .reply(200, JSON.parse(fs.readFileSync('./test/mocks/item_description_result.json', 'utf8')));
 
 describe('ItemService', function() {
   describe('getItems', function() {
@@ -41,5 +47,15 @@ describe('ItemService', function() {
       const result = await itemService.getItems('perro');
       expect(result.items.length).to.eq(0);
     });
+  });
+
+  describe('getItem', () => {
+    it('creates a product description with fields from both endpoints', async () => {
+      const itemService = new ItemService();
+      const result = await itemService.getItem('12345');
+      expect(result.item.id).to.eq('12345');
+      expect(result.item.title).to.eq('Test product');
+      expect(result.item.description).to.eq('test description');
+    })
   });
 });

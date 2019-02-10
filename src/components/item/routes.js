@@ -5,13 +5,14 @@ const itemService = new ItemService();
 
 // returns a query
 router.get('/', async function (req, res) {
-  var result = await itemService.getItems(req.query.q)
-    res.send(result);
+  var result = await itemService.getItems(req.query.q);
+  res.send(result);
 });
 
 // returns a detailed item
-router.get('/:id', function (req, res) {
-  res.send('item detail endpoint!');
+router.get('/:id', async function (req, res) {
+  var result = await itemService.getItem(req.params.id);
+  res.send(result);
 });
 
 module.exports = router;
