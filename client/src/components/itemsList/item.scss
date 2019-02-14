@@ -1,0 +1,53 @@
+.item {
+	grid-column: col-start 2 / span 9 ;
+  border-bottom: 1px solid $background-gray;
+  display: grid;
+  grid-template-columns: repeat(9, [col-start] 1fr);
+  grid-column-gap: 10px;
+  align-items: center;
+  
+  .image-container {
+    display: inline-block;
+    margin: 16px;
+    
+    .item-image {
+      width: 180px;
+    }
+  }
+  
+  .item-data {
+    display: inline-block;
+    grid-column: col-start 2 / span 7 ;
+    display: grid;
+    grid-template-columns: repeat(7, [col-start] 1fr);
+    grid-column-gap: 10px;
+    color: $font-black;
+
+    .first-col {
+      display: inline-block;
+      grid-column: col-start 1 / span 6 ;
+
+      .price {
+        font-size: 24px;
+        margin-bottom: 32px;
+      }
+
+      .short-description {
+        font-size: 18px;
+      }
+
+      .free-shipping img {
+        width: 18px;
+      }
+    }
+
+    .second-col {
+      display: inline-block;
+      grid-column: col-start 9 / span 1 ;
+      font-size: 12px;
+      color: $placeholder-font-color;
+    }
+  }
+  
+  
+}
