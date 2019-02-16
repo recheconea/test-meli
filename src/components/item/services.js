@@ -5,8 +5,8 @@ class ItemService {
   constructor() {}
 
   async getItems(query) {
-    const { data } = await axios.get('https://api.mercadolibre.com/sites/MLA/search', { params: { q: query } });
-
+    const { data } = await axios.get('https://api.mercadolibre.com/sites/MLA/search', { params: { q: query, limit: 4 } });
+    console.log(data.results[0])
     const items = data.results.map(item => {
       return {
         id: item.id,
@@ -18,7 +18,8 @@ class ItemService {
         },
         picture: item.thumbnail,
         condition: item.condition,
-        free_shipping: item.shipping.free_shipping
+        free_shipping: item.shipping.free_shipping,
+        city: item.address.state_name
       }
     });
 

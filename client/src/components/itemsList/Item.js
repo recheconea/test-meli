@@ -3,19 +3,29 @@ import logoMeli from 'assets/images/image-sample.jpg';
 import icnShipping from 'assets/images/ic_shipping.png';
 
 class Item extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = props.itemData;
+  }
+
+  renderFreeShipping() {
+    return this.state.freeShipping ? <img src={icnShipping}/> : '';
+  }
+
   render() {
     return (
       <div className="item">
       	<div className="image-container">
-      		<img src={logoMeli} className="item-image"/>
+      		<img src={this.state.picture} className="item-image"/>
       	</div>
       	<div className="item-data">
           <div className="first-col">
-        	  <span className="price">1980</span> <span className="free-shipping"><img src={icnShipping}/></span>
-        	  <p className="short-description"> This is a text description </p>
+        	  <span className="price">{this.state.price.amount}</span> <span className="free-shipping">{this.renderFreeShipping()}</span>
+        	  <p className="short-description"> {this.state.title} </p>
           </div>
 	      	<div className="second-col">
-	      	  <span>Buenos aires</span>
+	      	  <span>{this.state.city}</span>
 	      	</div>
       	</div>
       </div>
