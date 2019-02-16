@@ -1,5 +1,8 @@
 var axios = require('axios');
 
+const conditionMap = { new: 'Nuevo', used: 'Usado' };
+const currencyMap = { ARS: '$', USD: 'U$S' };
+
 class ItemService {
 
   constructor() {}
@@ -11,11 +14,7 @@ class ItemService {
       return {
         id: item.id,
         title: item.title,
-        price: {
-          currency: item.currency_id,
-          amount: item.price,
-          decimals: 0
-        },
+        price: this.formatPrice(item),
         picture: item.thumbnail,
         condition: item.condition,
         free_shipping: item.shipping.free_shipping,
@@ -34,38 +33,48 @@ class ItemService {
     return  {
       items: items,
       categories: [],
-      author: {
-        name: 'Rodrigo',
-        lastname: 'Echeconea'
-      },
+      author: this.getAuthor(),
       categories: categories
     };
   }
 
   async getItem(id) {
-    const { data: itemData }  = await axios.get(`https://api.mercadolibre.com/items/${id}`);
-    const { data: itemDescription } = await axios.get(`https://api.mercadolibre.com/items/${id}/description`);
+    const responses = await Promise.all([axios.get(`https://api.mercadolibre.com/items/${id}`), axios.get(`https://api.mercadolibre.com/items/${id}/description`)])
+    const itemData = responses[0].data;
+    const itemDescription = responses[1].data;
 
+    const picture = itemData.pictures.length > 1 ? itemData.pictures[0].url : itemData.thumbnail;
+    
     return {
-      author: {
-        name: 'Rodrigo',
-        lastname: 'Echeconea'
-      },
+      author: this.getAuthor(),
       item: {
         id: id,
         title: itemData.title,
-        price: {
-          currency: itemData.currency_id,
-          amount: itemData.price,
-          decimals: 0,
-        },
-        picture: itemData.thumbnail,
-        condition: itemData.condition,
+        price: this.formatPrice(itemData),
+        picture: picture,
+        condition: conditionMap[itemData.condition],
         free_shipping: itemData.shipping.free_shipping,
         sold_quantity: itemData.sold_quantity,
         description: itemDescription.plain_text
       }
     }
+  }
+
+  formatPrice(itemData) {
+    const amount = parseInt(itemData.price);
+    const decimals = (itemData.price - amount).toFixed(2) * 100;
+    return {
+      currency: currencyMap[itemData.currency_id],
+      amount: amount,
+      decimals: decimals,
+    }
+  }
+
+  getAuthor() {
+    return {
+      name: 'Rodrigo',
+      lastname: 'Echeconea'
+    };
   }
 }
 

@@ -4,6 +4,7 @@ $background-gray: #EEEEEE;
 $font-black: #333333;
 @import './components/searchBar/searchBar';
 @import './components/itemsList/item';
+@import './pages/itemDetail';
 
 body {
 	background-color: $background-gray;

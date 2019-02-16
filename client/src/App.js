@@ -7,6 +7,7 @@ import { createStore } from 'redux';
 
 import SearchBar from './components/searchBar/SearchBar';
 import ItemsList from './pages/ItemsList';
+import ItemDetail from './pages/ItemDetail';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
           <div className="main-container">
             <Switch >
                 <Route exact path="/items" component={ItemsList} />
+                <Route exact path="/items/:id" component={ItemDetail} />
             </Switch>
           </div>
         </div>

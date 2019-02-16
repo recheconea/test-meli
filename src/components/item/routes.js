@@ -15,6 +15,8 @@ router.get('/', async function (req, res) {
 // returns a detailed item
 router.get('/:id', async function (req, res) {
   var result = await itemService.getItem(req.params.id);
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Accept")
   res.send(result);
 });
 

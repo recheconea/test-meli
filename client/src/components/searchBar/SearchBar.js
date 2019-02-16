@@ -27,7 +27,7 @@ class SearchBar extends React.Component {
    }
 
   search() {
-    this.props.history.push(`/items?search=${this.state.searchTerm}`)
+    this.props.history.push(`/items?search=${this.state.searchTerm}`);
   }
 
   render() {
