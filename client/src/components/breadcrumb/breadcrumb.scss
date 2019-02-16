@@ -1,0 +1,10 @@
+.breadcrumb {
+	grid-column: col-start 2 / span 10;
+	padding: 16px 0;
+	font-size: 14px;
+	color: $placeholder-font-color;
+
+	.last {
+		color: $strong-gray;
+	}
+}

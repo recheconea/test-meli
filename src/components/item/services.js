@@ -1,15 +1,17 @@
 var axios = require('axios');
+var CategoryService = require('../categories/services');
 
 const conditionMap = { new: 'Nuevo', used: 'Usado' };
 const currencyMap = { ARS: '$', USD: 'U$S' };
 
 class ItemService {
 
-  constructor() {}
+  constructor() {
+    this.categoryService = new CategoryService();
+  }
 
   async getItems(query) {
     const { data } = await axios.get('https://api.mercadolibre.com/sites/MLA/search', { params: { q: query, limit: 4 } });
-    console.log(data.results[0])
     const items = data.results.map(item => {
       return {
         id: item.id,
@@ -21,14 +23,9 @@ class ItemService {
         city: item.address.state_name
       }
     });
-
-    let categories = [];
-    if (data.filters.length) {
-      const category_filter = data.filters.find(filter => filter.id == 'category')
-      if (category_filter) {
-        categories = category_filter.values[0].path_from_root.map(category => category.name)
-      }
-    }
+    
+    const mostFrequentCategoryId = this.getMostFrequentCategory(data.results)
+    const categories = await this.categoryService.getBreadcrumbCategories(mostFrequentCategoryId);
 
     return  {
       items: items,
@@ -44,7 +41,8 @@ class ItemService {
     const itemDescription = responses[1].data;
 
     const picture = itemData.pictures.length > 1 ? itemData.pictures[0].url : itemData.thumbnail;
-    
+    const categories = await this.categoryService.getBreadcrumbCategories(itemData.category_id);
+
     return {
       author: this.getAuthor(),
       item: {
@@ -56,7 +54,8 @@ class ItemService {
         free_shipping: itemData.shipping.free_shipping,
         sold_quantity: itemData.sold_quantity,
         description: itemDescription.plain_text
-      }
+      },
+      categories: categories
     }
   }
 
@@ -75,6 +74,12 @@ class ItemService {
       name: 'Rodrigo',
       lastname: 'Echeconea'
     };
+  }
+
+  getMostFrequentCategory(items) {
+    let categories = {};
+    items.forEach((item) => categories[item.category_id] = categories[item.category_id] ? categories[item.category_id] + 1 : 1);
+    return Object.keys(categories).reduce((max, key) => max > categories[key] ? max : key, 0);
   }
 }
 

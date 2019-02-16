@@ -2,8 +2,10 @@ $main-yellow: #FFE600;
 $placeholder-font-color: #999999;
 $background-gray: #EEEEEE;
 $font-black: #333333;
+$strong-gray: #666666;
 @import './components/searchBar/searchBar';
 @import './components/itemsList/item';
+@import './components/breadcrumb/breadcrumb';
 @import './pages/itemDetail';
 
 body {

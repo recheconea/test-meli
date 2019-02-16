@@ -1,5 +1,6 @@
 import React from 'react';
 import Item from 'components/itemsList/Item';
+import Breadcrumb from 'components/breadcrumb/Breadcrumb';
 import Axios from 'axios';
 import queryString from 'query-string';
 
@@ -9,7 +10,8 @@ class ItemList extends React.Component {
 
     this.state = {
       results: null,
-      previousSearchTerm: ''
+      previousSearchTerm: '',
+      breadcrumb: null
     };
   }
 
@@ -18,7 +20,7 @@ class ItemList extends React.Component {
     if (this.state.previousSearchTerm != searchValue.search) {
       this.setState({previousSearchTerm: searchValue.search, results: null});
       let {data} = await Axios.get(`http://localhost:5000/api/items?q=${searchValue.search}`);
-      this.setState({results: data.items});
+      this.setState({results: data.items, breadcrumb: data.categories});
     }
   }
 
@@ -41,9 +43,9 @@ class ItemList extends React.Component {
       return <div>Loading</div>;
     }
 
-
     return (
       <div className="main-container-inner">
+        <Breadcrumb categories={this.state.breadcrumb}/>
         {this.renderList()}
       </div>
     );
