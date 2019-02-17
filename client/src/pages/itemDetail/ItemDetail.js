@@ -26,7 +26,8 @@ class ItemDetail extends React.Component {
 
   render() {
     if (!this.state.item.id) {
-      return <div>Loading</div>;
+      return (
+        <div className="item-detail-container"><div className="item-detail loading"><span>Cargando</span></div></div>);
     }
 
     return (
@@ -35,7 +36,7 @@ class ItemDetail extends React.Component {
         <div className="item-detail">
           <div className="first-main-row inner-container">
             <div className="image-container">
-              <img src={this.state.item.picture} className="item-image"/>
+              <img alt="item detail" src={this.state.item.picture} className="item-image"/>
             </div>
             <div className="item-data-container">
               <div className="first-row">

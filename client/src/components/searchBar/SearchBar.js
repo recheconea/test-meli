@@ -1,6 +1,5 @@
 import React from 'react';
 import logoMeli from 'assets/images/Logo_ML.png';
-import { Redirect } from 'react-router';
 import { withRouter } from 'react-router-dom'
 
 class SearchBar extends React.Component {
@@ -27,7 +26,8 @@ class SearchBar extends React.Component {
    }
 
   search() {
-    this.props.history.push(`/items?search=${this.state.searchTerm}`);
+    if (this.state.searchTerm.trim())
+      this.props.history.push(`/items?search=${this.state.searchTerm}`);
   }
 
   render() {
@@ -36,7 +36,9 @@ class SearchBar extends React.Component {
         <div className="header-container">
           <div  className="header-inner-container">
             <div className="img-container">
-              <img src={logoMeli} className="logo"/>
+              <a href="/">
+                <img alt="logo-meli" src={logoMeli} className="logo"/>
+              </a>
             </div>
             <form className="search-form" onSubmit={this.submit}>
               <div className="form-control">

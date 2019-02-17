@@ -1,5 +1,4 @@
 import React from 'react';
-import logoMeli from 'assets/images/image-sample.jpg';
 import icnShipping from 'assets/images/ic_shipping.png';
 import { withRouter } from 'react-router-dom'
 
@@ -12,7 +11,7 @@ class Item extends React.Component {
   }
 
   renderFreeShipping() {
-    return this.state.freeShipping ? <img src={icnShipping}/> : '';
+    return this.state.free_shipping ? <img alt="free shipping" src={icnShipping}/> : '';
   }
 
   redirectToDetail(id) {
@@ -23,7 +22,7 @@ class Item extends React.Component {
     return (
       <div className="item" onClick={() => this.redirectToDetail(this.state.id)}>
       	<div className="image-container">
-      		<img src={this.state.picture} className="item-image"/>
+      		<img alt="item detail" src={this.state.picture} className="item-image"/>
       	</div>
       	<div className="item-data">
           <div className="first-col">

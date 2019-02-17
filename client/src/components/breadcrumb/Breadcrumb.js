@@ -18,6 +18,7 @@ class Breadcrumb extends React.Component {
   }
 
   render() {
+    console.log(this.props.categories)
     if (this.props.categories.length > 1) {
       return (
         <div className="breadcrumb">

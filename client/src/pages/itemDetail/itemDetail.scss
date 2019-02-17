@@ -9,6 +9,7 @@
     grid-column-gap: 10px;
   }
 
+
   .item-detail {
     grid-column: col-start 2 / span 10;
     padding: 32px;
@@ -70,6 +71,14 @@
           font-size: 16px;
         }
       }
+    }
+  }
+  .item-detail.loading {
+    width: 100%;
+    height: 100vh;
+
+    span {
+      margin: 40%;
     }
   }
 }

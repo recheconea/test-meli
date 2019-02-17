@@ -31,8 +31,8 @@ class ItemService {
     });
     
     const mostFrequentCategoryId = this.getMostFrequentCategory(data.results);
-    const categories = [];
-    if (mostFrequentCategoryId > 0) {
+    let categories = [];
+    if (mostFrequentCategoryId) {
       categories = await this.categoryService.getBreadcrumbCategories(mostFrequentCategoryId);
     }
 
@@ -48,7 +48,6 @@ class ItemService {
     const responses = await Promise.all([axios.get(`https://api.mercadolibre.com/items/${id}`), axios.get(`https://api.mercadolibre.com/items/${id}/description`)])
     const itemData = responses[0].data;
     const itemDescription = responses[1].data;
-
     const picture = itemData.pictures.length > 1 ? itemData.pictures[0].url : itemData.thumbnail;
     const categories = await this.categoryService.getBreadcrumbCategories(itemData.category_id);
 

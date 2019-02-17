@@ -20,7 +20,7 @@ class ItemList extends React.Component {
 
   async fetchData() {
     const searchValue = queryString.parse(this.props.location.search);
-    if (this.state.previousSearchTerm != searchValue.search || this.state.previousPage != searchValue.page) {
+    if (this.state.previousSearchTerm !== searchValue.search || this.state.previousPage !== searchValue.page) {
       this.setState({previousSearchTerm: searchValue.search, results: null, previousPage: searchValue.page});
       const page = searchValue.page ? `&page=${searchValue.page}` : ''
       let {data} = await Axios.get(`http://localhost:5000/api/items?q=${searchValue.search}${page}`);
@@ -44,7 +44,7 @@ class ItemList extends React.Component {
 
   render() {
     if (!this.state.results) {
-      return <div>Loading</div>;
+      return (<div className="item-detail-container"><div className="item-detail loading"><span>Cargando</span></div></div>);
     }
 
     return (

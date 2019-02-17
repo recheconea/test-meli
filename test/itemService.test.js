@@ -3,6 +3,7 @@ const nock = require('nock');
 const fs = require('fs');
 const ItemService = require('../src/components/item/services');
 
+const categorySearchFile = JSON.parse(fs.readFileSync('./test/mocks/category_search.json', 'utf8'));
 nock('https://api.mercadolibre.com')
   .get('/sites/MLA/search?q=auto&limit=4&offset=0')
   .reply(200, JSON.parse(fs.readFileSync('./test/mocks/query_results.json', 'utf8')));
@@ -20,11 +21,19 @@ nock('https://api.mercadolibre.com')
   .reply(200, JSON.parse(fs.readFileSync('./test/mocks/item_description_result.json', 'utf8')));
 nock('https://api.mercadolibre.com')
   .get('/categories/MLA404041')
-  .reply(200, JSON.parse(fs.readFileSync('./test/mocks/category_search.json', 'utf8')));
+  .reply(200, categorySearchFile);
 nock('https://api.mercadolibre.com')
   .persist()
   .get('/categories/MLA24278')
-  .reply(200, JSON.parse(fs.readFileSync('./test/mocks/category_search.json', 'utf8')));
+  .reply(200, categorySearchFile);
+nock('https://api.mercadolibre.com')
+  .persist()
+  .get('/categories/MLA62711')
+  .reply(200, categorySearchFile);
+nock('https://api.mercadolibre.com')
+  .persist()
+  .get('/categories/MLA62710')
+  .reply(200, categorySearchFile);
 
 describe('ItemService', function() {
   describe('getItems', function() {

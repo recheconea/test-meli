@@ -40,7 +40,7 @@ class Pagination extends React.Component {
   renderPageList() {
     const pages = Array(this.state.paging.maxPage - this.state.paging.minPage + 1).fill().map((item, index) => this.state.paging.minPage + index)
     return pages.map((page) => {
-      return <span key={page} onClick={() => this.goToPage(page)} className={page == this.state.paging.currentPage ? 'page active' : 'page'}>{page}</span>
+      return <span key={page} onClick={() => this.goToPage(page)} className={page === this.state.paging.currentPage ? 'page active' : 'page'}>{page}</span>
     });
   }
 

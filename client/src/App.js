@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.scss';
-import { Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import 'assets/styles/App.scss';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import SearchBar from './components/searchBar/SearchBar';
-import ItemsList from './pages/ItemsList';
-import ItemDetail from './pages/ItemDetail';
+import ItemsList from './pages/itemList/ItemsList';
+import ItemDetail from './pages/itemDetail/ItemDetail';
 
 class App extends Component {
   render() {
     return (
-      <Router>
+      <BrowserRouter>
         <div className="App">
           <SearchBar/>
           <div className="main-container">
@@ -22,7 +19,7 @@ class App extends Component {
             </Switch>
           </div>
         </div>
-      </Router>
+      </BrowserRouter>
     );
   }
 }
