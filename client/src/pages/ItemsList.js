@@ -1,6 +1,7 @@
 import React from 'react';
 import Item from 'components/itemsList/Item';
 import Breadcrumb from 'components/breadcrumb/Breadcrumb';
+import Pagination from 'components/pagination/Pagination';
 import Axios from 'axios';
 import queryString from 'query-string';
 
@@ -11,16 +12,19 @@ class ItemList extends React.Component {
     this.state = {
       results: null,
       previousSearchTerm: '',
-      breadcrumb: null
+      previousPage: 0,
+      breadcrumb: null,
+      pagination: null
     };
   }
 
   async fetchData() {
     const searchValue = queryString.parse(this.props.location.search);
-    if (this.state.previousSearchTerm != searchValue.search) {
-      this.setState({previousSearchTerm: searchValue.search, results: null});
-      let {data} = await Axios.get(`http://localhost:5000/api/items?q=${searchValue.search}`);
-      this.setState({results: data.items, breadcrumb: data.categories});
+    if (this.state.previousSearchTerm != searchValue.search || this.state.previousPage != searchValue.page) {
+      this.setState({previousSearchTerm: searchValue.search, results: null, previousPage: searchValue.page});
+      const page = searchValue.page ? `&page=${searchValue.page}` : ''
+      let {data} = await Axios.get(`http://localhost:5000/api/items?q=${searchValue.search}${page}`);
+      this.setState({results: data.items, breadcrumb: data.categories, pagination: data.pagination});
     }
   }
 
@@ -47,6 +51,7 @@ class ItemList extends React.Component {
       <div className="main-container-inner">
         <Breadcrumb categories={this.state.breadcrumb}/>
         {this.renderList()}
+        <Pagination paging={this.state.pagination}/>
       </div>
     );
   }

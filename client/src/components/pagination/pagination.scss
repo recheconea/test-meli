@@ -1,0 +1,22 @@
+.pagination {
+	grid-column: col-start 2 / span 10;
+	padding: 16px 0;
+	font-size: 14px;
+	color: $placeholder-font-color;
+  margin: auto;
+
+	.page {
+		font-size: 18px;
+		padding: 10px;
+    cursor: pointer;
+	}
+
+	.page:hover {
+    background-color: #E4E4E5;
+  }
+
+	.active {
+		color: $strong-gray;
+    background-color: #E4E4E5;
+	}
+}

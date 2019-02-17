@@ -18,11 +18,15 @@ class Breadcrumb extends React.Component {
   }
 
   render() {
-    return (
-      <div className="breadcrumb">
-        {this.renderBreadcrumbList()} {this.renderLastBreadcrumbList()}
-      </div>
-    );
+    if (this.props.categories.length > 1) {
+      return (
+        <div className="breadcrumb">
+          {this.renderBreadcrumbList()} {this.renderLastBreadcrumbList()}
+        </div>
+      );
+    } else {
+      return <div></div>
+    }
   }
 }
 

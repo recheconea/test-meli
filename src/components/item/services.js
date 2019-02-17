@@ -3,6 +3,7 @@ var CategoryService = require('../categories/services');
 
 const conditionMap = { new: 'Nuevo', used: 'Usado' };
 const currencyMap = { ARS: '$', USD: 'U$S' };
+const resultsPerPage = 4;
 
 class ItemService {
 
@@ -11,7 +12,12 @@ class ItemService {
   }
 
   async getItems(query) {
-    const { data } = await axios.get('https://api.mercadolibre.com/sites/MLA/search', { params: { q: query, limit: 4 } });
+    const params = {
+      q: query.q,
+      limit: resultsPerPage,
+      offset: query.page ? query.page * resultsPerPage : 0
+    }
+    const { data } = await axios.get('https://api.mercadolibre.com/sites/MLA/search', { params: params });
     const items = data.results.map(item => {
       return {
         id: item.id,
@@ -24,14 +30,17 @@ class ItemService {
       }
     });
     
-    const mostFrequentCategoryId = this.getMostFrequentCategory(data.results)
-    const categories = await this.categoryService.getBreadcrumbCategories(mostFrequentCategoryId);
+    const mostFrequentCategoryId = this.getMostFrequentCategory(data.results);
+    const categories = [];
+    if (mostFrequentCategoryId > 0) {
+      categories = await this.categoryService.getBreadcrumbCategories(mostFrequentCategoryId);
+    }
 
     return  {
       items: items,
-      categories: [],
       author: this.getAuthor(),
-      categories: categories
+      categories: categories,
+      pagination: this.calculatePagination(data.paging)
     };
   }
 
@@ -79,7 +88,30 @@ class ItemService {
   getMostFrequentCategory(items) {
     let categories = {};
     items.forEach((item) => categories[item.category_id] = categories[item.category_id] ? categories[item.category_id] + 1 : 1);
-    return Object.keys(categories).reduce((max, key) => max > categories[key] ? max : key, 0);
+    return Object.keys(categories).reduce((max, key) => categories[max] > categories[key] ? max : key, 0);
+  }
+
+  calculatePagination(paging) {
+    const totalPages = Math.ceil(paging.total / resultsPerPage) + 1;
+    const currentPage = paging.offset == 0 ? 1 : Math.ceil(paging.offset / resultsPerPage);
+    let minPage = 0;
+    let maxPage = 0;
+    if (currentPage == 1) {
+      minPage = 1;
+      maxPage = Math.min(totalPages, 10);
+    } else if (totalPages == currentPage) {
+      minPage = Math.max(currentPage - 10, 1);
+      maxPage = currentPage;
+    } else {
+      minPage = Math.max(currentPage - 5, 1);
+      maxPage = Math.min(currentPage + 5, totalPages);
+    }
+
+    return {
+      minPage: minPage,
+      maxPage: maxPage,
+      currentPage: currentPage
+    }
   }
 }
 
