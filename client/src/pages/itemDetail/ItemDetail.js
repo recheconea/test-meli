@@ -14,7 +14,7 @@ class ItemDetail extends React.Component {
 	async componentDidMount() {
     const { id } = this.props.match.params
     if (id) {
-      let {data} = await Axios.get(`http://localhost:5000/api/items/${id}`);
+      let {data} = await Axios.get(`/api/items/${id}`);
       this.setState({item: data.item, breadcrumb: data.categories});
     }
   }

@@ -23,7 +23,7 @@ class ItemList extends React.Component {
     if (this.state.previousSearchTerm !== searchValue.search || this.state.previousPage !== searchValue.page) {
       this.setState({previousSearchTerm: searchValue.search, results: null, previousPage: searchValue.page});
       const page = searchValue.page ? `&page=${searchValue.page}` : ''
-      let {data} = await Axios.get(`http://localhost:5000/api/items?q=${searchValue.search}${page}`);
+      let {data} = await Axios.get(`/api/items?q=${searchValue.search}${page}`);
       this.setState({results: data.items, breadcrumb: data.categories, pagination: data.pagination});
     }
   }
