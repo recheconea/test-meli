@@ -21,7 +21,10 @@ class ItemDetail extends React.Component {
 
   renderPrice() {
     const price = this.state.item.price;
-    return `${price.currency} ${price.amount}.${price.decimals}`;
+    let priceString = `${price.currency} ${price.amount}`;
+    if (price.decimals)
+      priceString += `.${price.decimals}`;
+    return priceString;
   }
 
   render() {

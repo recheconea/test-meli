@@ -8,10 +8,19 @@ class Item extends React.Component {
 
     this.state = props.itemData;
     this.redirectToDetail = this.redirectToDetail.bind(this)
+    this.renderPrice = this.renderPrice.bind(this)
   }
 
   renderFreeShipping() {
     return this.state.free_shipping ? <img alt="free shipping" src={icnShipping}/> : '';
+  }
+
+  renderPrice() {
+    const price = this.state.price;
+    let priceString = `${price.currency} ${price.amount}`;
+    if (price.decimals)
+      priceString += `.${price.decimals}`;
+    return priceString;
   }
 
   redirectToDetail(id) {
@@ -26,7 +35,7 @@ class Item extends React.Component {
       	</div>
       	<div className="item-data">
           <div className="first-col">
-        	  <span className="price">{this.state.price.amount}</span> <span className="free-shipping">{this.renderFreeShipping()}</span>
+        	  <span className="price">{this.renderPrice()}</span> <span className="free-shipping">{this.renderFreeShipping()}</span>
         	  <p className="short-description"> {this.state.title} </p>
           </div>
 	      	<div className="second-col">
