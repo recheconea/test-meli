@@ -6,6 +6,10 @@
   background-color: white;
   grid-column-gap: 10px;
   align-items: center;
+
+  @media (max-width: 600px) {
+    grid-column: col-start 1 / span 12 ;
+  }
   
   .image-container {
     display: inline-block;
@@ -28,6 +32,10 @@
       display: inline-block;
       grid-column: col-start 1 / span 6 ;
 
+      @media (max-width: 600px) {
+        grid-column: col-start 1 / span 7 ;
+      }
+
       .price {
         font-size: 24px;
         margin-bottom: 32px;
@@ -47,6 +55,10 @@
       grid-column: col-start 9 / span 1 ;
       font-size: 12px;
       color: $placeholder-font-color;
+
+      @media (max-width: 600px) {
+        grid-column: col-start 1 / span 7 ;
+      }
     }
   }
   

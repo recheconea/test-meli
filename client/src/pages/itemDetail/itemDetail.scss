@@ -81,4 +81,27 @@
       margin: 40%;
     }
   }
+
+  @media (max-width: 600px) {
+    .item-detail {
+      grid-column: col-start 1 / span 12;
+
+      .first-main-row {
+
+        .image-container {
+          grid-column: col-start 1 / span 12 ;
+        }
+
+        .item-data-container {
+          grid-column: col-start 1 / span 12;
+        }
+      }
+
+      .second-main-row {
+        .second-main-row-inner {
+          grid-column: col-start 1 / span 12 ;
+        }
+      }
+    }
+  }
 }
